@@ -32,7 +32,7 @@ def index():
         return f"Bad Request: {msg}", 400
 
     pubsub_message = envelope["message"]
-
+    print("HAY :"+ pubsub_message)
     name = "World"
     if isinstance(pubsub_message, dict) and "data" in pubsub_message:
         name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
