@@ -1,5 +1,6 @@
 
 import argparse, sys, os
+from google.cloud import logging
 from google.cloud.video import transcoder_v1
 from google.cloud.video.transcoder_v1.services.transcoder_service import (
     TranscoderServiceClient,
@@ -27,6 +28,12 @@ def create_job_from_preset( input_bucket, input_object):
     input_uri="gs://"+input_bucket+"/"+input_object
     output_uri="gs://media-out-kish"+input_bucket+"/"+ input_object
 
+    client = logging.Client()
+
+    logger = client.logger("service_1")
+    logger.log("Inp" + input_uri)
+    logger.log("OP" + output_uri)
+    
     project_id = os.environ.get('project_id')
     location = os.environ.get('location')
 
