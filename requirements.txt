@@ -1,3 +1,4 @@
 Flask
 gunicorn
 google-cloud-logging
+google-cloud-video-transcoder
