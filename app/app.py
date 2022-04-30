@@ -1,6 +1,7 @@
-import logging
+import logging as pythonlogging
 import os
 import base64
+from google.cloud import logging
 from flask import Flask, request
 from secure import require_apikey
 
@@ -33,8 +34,11 @@ def index():
 
     pubsub_message = envelope["message"]
     print(pubsub_message)
-    logger = logging.getLogger("test")
-    logger.debug( pubsub_message)
+    
+    client = logging.Client()
+
+    logger = client.logger("service_1")
+    logger.debug(pubsub_message)
     
     name = "World"
     if isinstance(pubsub_message, dict) and "data" in pubsub_message:
@@ -42,7 +46,7 @@ def index():
     logger.debug(name)
     print(f"Hello {name}!")
 
-    return ("", 204)
+    return ("DONE", 204)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=int(os.environ.get('PORT', 8080)))
