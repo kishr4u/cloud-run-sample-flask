@@ -25,7 +25,7 @@ def create_job_from_preset( input_bucket, input_object):
 
     trancoderClient = TranscoderServiceClient()
 
-    input_uri="gs://"+input_bucket+"/"+input_object+ "/"
+    input_uri="gs://"+input_bucket+"/"+input_object
     output_uri="gs://media-out-kish/"+input_bucket+"/"+ input_object+ "/"
 
     
