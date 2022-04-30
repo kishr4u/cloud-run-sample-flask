@@ -1,6 +1,7 @@
 import logging as pythonlogging
 import os
 import base64
+import transcoderJob
 from google.cloud import logging
 from flask import Flask, request
 from secure import require_apikey
@@ -45,6 +46,9 @@ def index():
         name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
     logger.log(name)
     print(f"Hello {name}!")
+    inputs= name.split(",")
+
+    transcoderJob.create_job_from_preset(inputs[0],inputs[1])
 
     return ("DONE", 204)
 
