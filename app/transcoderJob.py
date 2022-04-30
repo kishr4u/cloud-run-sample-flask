@@ -46,7 +46,7 @@ def create_job_from_preset( input_bucket, input_object):
 
     response = trancoderClient.create_job(parent=parent, job=job)
     print(f"Job: {response.name}")
-    logger.log(response)
+    logger.log("Job name "+ response.name)
     return response
 
 
