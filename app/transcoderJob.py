@@ -38,7 +38,7 @@ def create_job_from_preset( input_bucket, input_object):
     project_id = os.environ.get('project_id')
     location = os.environ.get('location')
 
-    time.sleep(30)
+    
     parent = "projects/kishorerjbloom/locations/us-east1"
     job = transcoder_v1.types.Job()
     job.input_uri = input_uri
