@@ -12,7 +12,7 @@ def create_bucket(bucket_name):
     bucket = storage.Bucket(bucket_name)
     client.create_bucket(bucket)
 
-def create_job_from_preset( input_bucket_uri, input_object):
+def create_job_from_preset( input_bucket, input_object):
     """Creates a job based on a job preset.
 
     Args:
@@ -24,8 +24,8 @@ def create_job_from_preset( input_bucket_uri, input_object):
 
     client = TranscoderServiceClient()
 
-    input_uri=input_bucket_uri+input_object
-    output_uri="gsutil://media-out-kish"+input_bucket_uri+"/"+ input_object
+    input_uri="gs://"+input_bucket+input_object
+    output_uri="gs://media-out-kish"+input_bucket+"/"+ input_object
 
     project_id = os.environ.get('project_id')
     location = os.environ.get('location')
