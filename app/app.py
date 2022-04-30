@@ -38,12 +38,12 @@ def index():
     client = logging.Client()
 
     logger = client.logger("service_1")
-    logger.log_text(pubsub_message)
+    logger.log(pubsub_message)
     
     name = "World"
     if isinstance(pubsub_message, dict) and "data" in pubsub_message:
         name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
-    logger.log_text(name)
+    logger.log(name)
     print(f"Hello {name}!")
 
     return ("DONE", 204)
