@@ -33,7 +33,7 @@ def create_job_from_preset( input_bucket, input_object):
     logger = client.logger("service_1")
     logger.log("Inp" + input_uri)
     logger.log("OP" + output_uri)
-    if project_id is not None:
+    
     project_id = os.environ.get('project_id')
     location = os.environ.get('location')
 
