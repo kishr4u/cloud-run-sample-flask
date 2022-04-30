@@ -34,11 +34,12 @@ def index():
     pubsub_message = envelope["message"]
     print(pubsub_message)
     logger = logging.getLogger("test")
-    logger.debug("message receive is " + pubsub_message)
+    logger.debug( pubsub_message)
+    
     name = "World"
     if isinstance(pubsub_message, dict) and "data" in pubsub_message:
         name = base64.b64decode(pubsub_message["data"]).decode("utf-8").strip()
-
+    logger.debug(name)
     print(f"Hello {name}!")
 
     return ("", 204)
