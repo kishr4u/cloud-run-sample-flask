@@ -1,5 +1,4 @@
-
-import argparse, sys, os, time
+import argparse, sys, os, time, bq
 from google.cloud import logging
 from google.cloud.video import transcoder_v1
 from google.cloud.video.transcoder_v1.services.transcoder_service import (
@@ -15,7 +14,6 @@ def create_bucket(bucket_name):
 
 def create_job_from_preset( input_bucket, input_object):
     """Creates a job based on a job preset.
-
     Args:
         project_id: The GCP project ID.
         location: The location to start the job in.
@@ -38,7 +36,10 @@ def create_job_from_preset( input_bucket, input_object):
     project_id = os.environ.get('project_id')
     location = os.environ.get('location')
 
-    
+    project_id="kishorerjbloom"
+    dataset_id="test_sample"
+    table_id="trancoder_job_dtls"
+
     parent = "projects/kishorerjbloom/locations/us-east1"
     job = transcoder_v1.types.Job()
     job.input_uri = input_uri
@@ -48,6 +49,8 @@ def create_job_from_preset( input_bucket, input_object):
     response = trancoderClient.create_job(parent=parent, job=job)
     print(f"Job: {response.name}")
     logger.log("Job name "+ response.name)
+
+    bq.insert_table(project_id,dataset_id, table_id, response.name, "PROCESSING", input_uri, output_uri, job.template_id)
     return response
 
 
