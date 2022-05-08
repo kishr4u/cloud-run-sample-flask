@@ -21,7 +21,7 @@ def update_table(project, dataset, table, job_id, status, input_bucket_uri, outp
 
 def insert_table(project, dataset, table, job_id, status, input_bucket_uri, output_bucket_uri, job_template):
     client = bigquery.Client()
-    table_id = project+ "." + dataset + "." + table #"kishorerjbloom.test_sample.trancoder_job_dtls"
+    table_id = "kishorerjbloom.test_sample.trancoder_job_dtls"
     # datetime object containing current date and time
     now = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
      
@@ -29,12 +29,16 @@ def insert_table(project, dataset, table, job_id, status, input_bucket_uri, outp
         {u"job_id": job_id,  "status": status, u"start_date":now,u"end_date":now,
         u"input_media_uri": input_bucket_uri, u"output_transcoded_uri": output_bucket_uri,
         u"job_template": job_template}]
+    errors = []
+    #errors = client.insert_rows_json(table_id, rows_to_insert)  # Make an API request.
+    client = bigquery.Client()
+    query_text = f"""
+    INSERT {project}.{dataset}.{table} (job_id, status, start_date, end_date, input_media_uri, output_transcoded_uri, job_template)  
+    VALUES ('{job_id}', '{status}','{now}', '{now}', '{input_bucket_uri}', '{output_bucket_uri}', '{job_template}')
+    """
+    query_job = client.query(query_text)
 
-    errors = client.insert_rows_json(table_id, rows_to_insert)  # Make an API request.
-    if errors == []:
-        print("New rows have been added.")
-    else:
-        print("Encountered errors while inserting rows: {}".format(errors))
+    query_job.result()
 
 if __name__ == "__main__":
     #insert_table()
